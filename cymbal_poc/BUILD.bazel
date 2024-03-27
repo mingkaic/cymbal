@@ -1,0 +1,48 @@
+licenses(["notice"])
+
+TEST_SRCS = glob(["test_*.cc"]) + ["test.cc"]
+
+filegroup(
+    name = "cymbal_hdrs",
+    srcs = glob(["*.h"]),
+)
+
+filegroup(
+	name = "cymbal_srcs",
+	srcs = glob(["*.cc"], exclude=TEST_SRCS),
+)
+
+filegroup(
+    name = "srcs",
+    srcs = [
+        ":cymbal_hdrs",
+		":cymbal_srcs",
+        "BUILD.bazel",
+    ] + TEST_SRCS,
+    visibility = ["//visibility:public"],
+)
+
+######### LIBRARIES #########
+
+cc_library(
+    name = "cymbal",
+    hdrs = [":cymbal_hdrs"],
+	srcs = [":cymbal_srcs"],
+    deps = [
+		"@com_github_mingkaic_cisab//cisab/fmts",
+	],
+    visibility = ["//visibility:public"],
+)
+
+######### TEST #########
+
+cc_test(
+    name = "test",
+    size = "small",
+    srcs = TEST_SRCS,
+    deps = [
+        ":cymbal",
+        "@gtest//:gtest",
+        "@com_github_romeric_Fastor//:fastor",
+    ],
+)

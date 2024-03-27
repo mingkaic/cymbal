@@ -1,0 +1,7 @@
+run:asan --strip=never
+run:asan --copt -fsanitize=address
+run:asan --copt -O1
+run:asan --copt -fno-omit-frame-pointer
+run:asan --linkopt -fsanitize=address
+test:asan --linkopt -fsanitize=address
+coverage:asan --linkopt -fsanitize=address
