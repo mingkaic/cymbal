@@ -5,4 +5,4 @@ The most simply way to visualize these is to represent every element in a tensor
 # Proof of Concept
 The library `//cymbal_poc:cymbal` provides a basic API for defining a tensor and limited operations against it. See `//cymbal_poc:test` for examples.
 # Specs
-[[expression_specs|Expression Specs]] defines the cymbal meta language
+[Expression Specs](docs/expression_specs.md) defines the cymbal meta language
