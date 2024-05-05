@@ -8,29 +8,36 @@ filegroup(
 )
 
 filegroup(
-	name = "cymbal_srcs",
-	srcs = glob(["*.cc"], exclude=TEST_SRCS),
+    name = "cymbal_srcs",
+    srcs = glob(["*.cc"], exclude=TEST_SRCS),
 )
 
 filegroup(
     name = "srcs",
     srcs = [
         ":cymbal_hdrs",
-		":cymbal_srcs",
+        ":cymbal_srcs",
         "BUILD.bazel",
     ] + TEST_SRCS,
     visibility = ["//visibility:public"],
 )
+
+COPTS = select({
+    "@bazel_tools//src/conditions:windows": ["/std:c++20"],
+    "@bazel_tools//src/conditions:darwin": ["-std=c++20"],
+    "//conditions:default": ["-std=c++20"],
+})
 
 ######### LIBRARIES #########
 
 cc_library(
     name = "cymbal",
     hdrs = [":cymbal_hdrs"],
-	srcs = [":cymbal_srcs"],
+    srcs = [":cymbal_srcs"],
     deps = [
-		"@com_github_mingkaic_cisab//cisab/fmts",
-	],
+        "@com_github_mingkaic_cisab//cisab/fmts",
+    ],
+    copts = COPTS,
     visibility = ["//visibility:public"],
 )
 
@@ -45,4 +52,5 @@ cc_test(
         "@gtest//:gtest",
         "@com_github_romeric_Fastor//:fastor",
     ],
+    copts = COPTS,
 )
